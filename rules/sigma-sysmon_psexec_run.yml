@@ -1,0 +1,20 @@
+es_host: elasticsearch.nicolagatta.com
+es_port: 9200
+name: "Usage of psexec"
+description: "Detects the usage of Sysinternals PsExec"
+index: winlogbeat-*
+filter:
+- query:
+    query_string:
+      query: winlog.event_id:1 AND winlog.channel:"Microsoft-Windows-Sysmon/Operational" AND process.executable:/.*PsExec.exe/
+
+realert:
+ minutes: 5
+query_key: ['event.action', 'winlog.computer_name', 'user.name', 'process.executable', 'winlog.channel']
+type: any
+include: ['event.action', 'winlog.computer_name', 'user.name', 'process.executable', 'winlog.channel']
+alert:
+- "email"
+
+email:
+- "nicola.gatta@gmail.com"
