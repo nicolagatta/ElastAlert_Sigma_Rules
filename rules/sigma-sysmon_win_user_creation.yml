@@ -1,0 +1,20 @@
+es_host: HOSTNAME.MYDOMAIN.COM
+es_port: 9200
+name: "Windows - Create Local Account"
+description: "Detects the creation of a Windows Local User"
+index: winlogbeat-*
+filter:
+- query:
+    query_string:
+      query: '(winlog.event_id:4720 AND winlog.channel:"Security")'
+
+realert:
+ minutes: 5
+query_key: ['event.action', 'winlog.computer_name','winlog.event_data.TargetDomainName', 'winlog.event_data.TargetUserName', 'winlog.event_data.SubjectDomainName','winlog.event_data.SubjectUserName', 'winlog.channel']
+type: any
+include: ['event.action', 'winlog.computer_name','winlog.event_data.TargetDomainName', 'winlog.event_data.TargetUserName', 'winlog.event_data.SubjectDomainName','winlog.event_data.SubjectUserName', 'winlog.channel']
+alert:
+- "email"
+
+email:
+- "EMAILADDRESS@MYDOMAIN.COM"
