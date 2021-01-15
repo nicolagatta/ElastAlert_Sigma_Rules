@@ -1,4 +1,4 @@
-es_host: elasticsearch.nicolagatta.com
+es_host: HOSTNAME.MYDOMAIN.COM
 es_port: 9200
 name: "Usage of psexec"
 description: "Detects the usage of Sysinternals PsExec"
@@ -17,4 +17,4 @@ alert:
 - "email"
 
 email:
-- "nicola.gatta@gmail.com"
+- "MYEMAILADDRESS@MYDOMAIN.COM"
