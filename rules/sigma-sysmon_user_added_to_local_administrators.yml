@@ -1,0 +1,26 @@
+es_host: HOSTNAME.MYDOMAIN.COM
+es_port: 9200
+name: "Windows - User Added to Local Admin Group"
+description: This rule triggers on user accounts that are added to the local Administrators group, which could be legitimate activity or a sign of privilege escalation activity
+index: winlogbeat-*
+
+filter:
+- query:
+    query_string:
+            query: (winlog.event_id:"4732" AND winlog.event_data.TargetSid:"S-1-5-32-544")
+
+priority: 1
+realert:
+  minutes: 5
+
+query_key: ['event.action', 'winlog.computer_name','winlog.event_data.TargetDomainName', 'winlog.event_data.TargetUserName', 'winlog.event_data.SubjectDomainName','winlog.event_data.SubjectUserName','winlog.event_data.MemberSid', 'winlog.event_data.MemberSid', 'winlog.channel']
+
+type: any
+
+include: ['event.action', 'winlog.computer_name','winlog.event_data.TargetDomainName', 'winlog.event_data.TargetUserName', 'winlog.event_data.SubjectDomainName','winlog.event_data.SubjectUserName','winlog.event_data.MemberSid', 'winlog.event_data.MemberSid', 'winlog.channel']
+
+alert:
+- "email"
+
+email:
+- "EMAILADDRESS@MYDOMAIN.COM"
