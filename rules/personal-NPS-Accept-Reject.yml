@@ -1,0 +1,22 @@
+# strongly based on ELK additions in ELK-Customizations repo
+
+es_host: HOSTNAME.MYDOMAIN.COM
+es_port: 9200
+name: "NPS - 802.1x access"
+description: "Detects connection of non authorized device (MITRE ATT&CK T1200)"
+index: nps-*
+filter:
+- query:
+    query_string:
+      query: '(NPSPacketType:3)'
+
+realert:
+ minutes: 5
+query_key: ['NPSPacketType', 'NPSServer', 'NPSClientName', 'NPSPortId', 'NPSPortId', 'NPSCallingStationId','NPSUser', 'NPSClientFQDN']
+type: any
+include: ['NPSPacketType', 'NPSServer', 'NPSClientName', 'NPSPortId', 'NPSPortId', 'NPSCallingStationId','NPSUser', 'NPSClientFQDN']
+alert:
+- "email"
+
+email:
+- "MYEMAILADDRESS@MYDOMAIN.COM"
