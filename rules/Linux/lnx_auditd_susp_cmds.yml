@@ -1,0 +1,20 @@
+es_host: MYHOSTNAME
+es_port: 9200
+name: "Suspicious execve()"
+description: "Detects suspicious commands: execve (auditd is configured to log change of UID during execve)"
+index: auditbeat-*
+filter:
+- query:
+    query_string:
+            query: auditd.data.syscall:execve
+
+realert:
+ minutes: 5
+query_key: ['event.action', 'event.outcome','host.name','user.name','file.path','process.title']
+type: any
+include: ['event.action', 'event.outcome','host.name','user.name','file.path','process.title']
+alert:
+- "email"
+
+email:
+- MYEMAIL
