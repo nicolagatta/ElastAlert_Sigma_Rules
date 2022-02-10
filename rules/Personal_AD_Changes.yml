@@ -1,0 +1,18 @@
+es_host: __MY_ES_HOST__
+es_port: 9200
+name: "Active Directory Changes"
+description: "Detects changes to Active directory objects done by users. Exclude SYSTEM and computer accounts. Excludes users, group and computer. Goal is to monitor changes to AD schema and GPOs"
+index: winlogbeat-*
+filter:
+- query:
+    query_string:
+      query: (((event.code:5136 OR event.code:5137 OR event.code:5139 OR event.code:5141) AND (NOT winlog.event_data.ObjectClass.keyword:user AND NOT winlog.event_data.ObjectClass.keyword:computer AND NOT winlog.event_data.ObjectClass.keyword:group)) AND (NOT winlog.event_data.SubjectUserName.keyword:adminadsync AND NOT winlog.event_data.SubjectUserName.keyword:dnsdynupdate AND NOT winlog.event_data.SubjectUserName.keyword:SYSTEM AND NOT winlog.event_data.SubjectUserName.keyword:*$))
+realert:
+ minutes: 0
+query_key: ['winlog.event_data.ObjectClass','winlog.event_data.ObjectDN','winlog.event_data.SubjectUserName']
+type: any
+include: ['winlog.event_data.ObjectClass','winlog.event_data.ObjectDN','winlog.event_data.SubjectUserName','message']
+alert:
+- "email"
+email:
+- "MY_EMAIL"
