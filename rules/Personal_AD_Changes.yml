@@ -1,4 +1,4 @@
-es_host: __MY_ES_HOST__
+es_host: HOSTNAME.MYDOMAIN.COM
 es_port: 9200
 name: "Active Directory Changes"
 description: "Detects changes to Active directory objects done by users. Exclude SYSTEM and computer accounts. Excludes users, group and computer. Goal is to monitor changes to AD schema and GPOs"
