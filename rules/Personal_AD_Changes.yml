@@ -15,4 +15,4 @@ include: ['winlog.event_data.ObjectClass','winlog.event_data.ObjectDN','winlog.e
 alert:
 - "email"
 email:
-- "MY_EMAIL"
+- "MYEMAILADDRESS@MYDOMAIN.COM"
