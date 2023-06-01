@@ -1,0 +1,22 @@
+name: Microsoft SQL Server Failed login
+es_host: __HOSTNAME__
+es_port: 9200
+email:
+- "elk-alert"
+alert:
+- "email"
+alert:
+- "email"
+description: Detects a failed login on a SQL Server
+filter:
+- query:
+    query_string:
+      query: (event.code:18456 AND event.provider:MSSQLSERVER)
+index: winlogbeat-*
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+query_key: ['event.action','host.name']
+include: ['event.action','host.name','message']
