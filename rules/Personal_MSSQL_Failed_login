@@ -1,5 +1,5 @@
 name: Microsoft SQL Server Failed login
-es_host: __HOSTNAME__
+es_host: HOSTNAME.MYDOMAIN.COM
 es_port: 9200
 email:
 - "elk-alert"
